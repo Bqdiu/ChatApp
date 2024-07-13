@@ -1,0 +1,3 @@
+server:
+- npm i express cors mongoose jsonwebtoken cookie-parser dotenv bcryptjs
+- npm i nodemon
