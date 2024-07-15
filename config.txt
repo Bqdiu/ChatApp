@@ -2,3 +2,8 @@ server:
 - npm i express cors mongoose jsonwebtoken cookie-parser dotenv bcryptjs
 - npm i nodemon
 - npm i morgan
+
+client:
+- npx create-react-app "AppName"
+- npm install -D tailwindcss
+- npx tailwindcss init
