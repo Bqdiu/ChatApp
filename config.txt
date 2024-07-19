@@ -7,3 +7,6 @@ client:
 - npx create-react-app "AppName"
 - npm install -D tailwindcss
 - npx tailwindcss init
+- npm i axios
+- npm install react-hot-toast
+
