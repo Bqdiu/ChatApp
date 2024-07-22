@@ -3,7 +3,7 @@ import { IoClose } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom'
 import uploadFile from '../helper/upLoadFile';
 import axios from 'axios'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
   const [data, setData] = useState({
@@ -29,13 +29,6 @@ const RegisterPage = () => {
   const handleUploadPhoto = async (e) => {
     const file = e.target.files[0];
     setUploadPhoto(file);
-    // const upload = await uploadFile(file);
-    // setData((preve)=>{
-    //   return {
-    //     ...preve,
-    //     profile_pic: upload?.url
-    //   }
-    // })
   }
 
   const handleClearUploadPhoto = (e) => {
@@ -55,7 +48,7 @@ const RegisterPage = () => {
     }
     console.log(newData);
 
-    const URL = `${process.env.REACT_app_BACKEND_URL}/api/register`;
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/register`;
     try {
       const response = await axios.post(URL, newData);
       console.log('response',response);
@@ -76,7 +69,7 @@ const RegisterPage = () => {
   }
   return (
     <div className='mt-5'>
-      <div className='bg-white w-full max-w-md mx-2 rounded overflow-hidden p-5 mx-auto'>
+      <div className='bg-white w-full max-w-md rounded overflow-hidden p-5 mx-auto'>
         <h3 className='text-center'>Welcome to Chat App</h3>
         <form className='gird gap-4 pt-3' onSubmit={handleSubmit}>
           <div className='flex flex-col gap-1'>
