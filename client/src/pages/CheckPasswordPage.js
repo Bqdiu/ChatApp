@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast';
-import { HiUserCircle } from "react-icons/hi";
 import Avatar from '../components/Avatar';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/userSlice';
 
 const CheckPasswordPage = () => {
   const [data, setData] = useState({
@@ -13,6 +14,7 @@ const CheckPasswordPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // console.log('location', location);
+  const dispatch = useDispatch();
   // redirect if email has not been entered
   useEffect(() => {
     if (!location?.state?.name) {
@@ -46,8 +48,12 @@ const CheckPasswordPage = () => {
         },
         withCredentials: true
       });
+      
       toast.success(response.data.message);
+
       if (response.data.success) {
+        dispatch(setToken(response?.data?.token))
+        localStorage.setItem('token',response?.data?.token);
         setData({
           password: '',
         })
