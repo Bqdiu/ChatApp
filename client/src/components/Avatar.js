@@ -14,7 +14,7 @@ const Avatar = ({ userId, name, imageUrl, width, height }) => {
     }
 
     const bgColor = [
-        'bg-slate-200',
+        'bg-slate-400',
         'bg-teal-200',
         'bg-green-200',
         'bg-yellow-200',
