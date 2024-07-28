@@ -5,6 +5,8 @@ import { logout, setUser } from '../redux/userSlice';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
 import logo from '../assets/logo.png'
+import io from 'socket.io-client'
+
 const Home = () => {
 
   const user = useSelector(state => state.user);
@@ -37,6 +39,20 @@ const Home = () => {
     fetchUserDetails();
   }, [])
 
+  // socket connection
+
+  useEffect(() => {
+    const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
+      auth: {
+        token: localStorage.getItem('token')
+      }
+    })
+
+    return () => {
+      socketConnection.disconnect();
+    }
+  }, [])
+
   const basePath = location.pathname === '/';
   return (
     <div className='grid lg:grid-cols-[320px,1fr] h-screen max-h-screen'>
@@ -47,16 +63,20 @@ const Home = () => {
       <section className={`bg-green-200 ${basePath && 'hidden'}`}>
         <Outlet />
       </section>
+      {
+        basePath && (
+          <div className={`lg:flex justify-center items-center flex-col gap-3 hidden`}>
+            <img
+              src={logo}
+              width={250}
+              alt='Logo'
+            />
+            <p className='text-lg mt-2 text-slate-500'>Select user to send message</p>
+          </div>
+        )
+      }
 
-      <div className={`lg:flex justify-center items-center flex-col gap-3 hidden`}>
-        <img
-          src={logo}
-          width={250}
-          alt='Logo'
-        />
-        <p className='text-lg mt-2 text-slate-500'>Select user to send message</p>
-      </div>
-      
+
     </div>
   )
 }

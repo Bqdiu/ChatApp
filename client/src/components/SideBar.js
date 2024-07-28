@@ -32,8 +32,8 @@ const SideBar = () => {
                 <div className='flex flex-col items-center'>
                     <div className='mx-auto cursor-pointer' title={user.name} onClick={() => setEditUserOpen(true)}>
                         <Avatar
-                            width={40}
-                            height={40}
+                            width={35}
+                            height={35}
                             name={user.name}
                             imageUrl={user.profile_pic}
                         />
