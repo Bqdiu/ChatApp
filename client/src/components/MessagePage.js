@@ -9,7 +9,8 @@ import { IoMdImage } from "react-icons/io";
 import { FaVideo } from "react-icons/fa6";
 import uploadFile from '../helper/upLoadFile';
 import { CgCloseR } from "react-icons/cg";
-
+import Loading from './Loading';
+import backgroundImage from '../assets/wallapaper.jpeg'
 const MessagePage = () => {
   const params = useParams();
   const socketConnection = useSelector(state => state?.user?.socketConnection);
@@ -21,6 +22,7 @@ const MessagePage = () => {
     _id: '',
     online: false
   });
+  const [loading, setLoading] = useState(false);
 
   console.log("params", params.userId);
 
@@ -46,7 +48,10 @@ const MessagePage = () => {
 
   const handleUploadImage = async (e) => {
     const file = e.target.files[0];
+    setLoading(true);
     const uploadPhoto = await uploadFile(file);
+    setLoading(false);
+    setOpenUploadFile(false);
     setMessage(preve => {
       return {
         ...preve,
@@ -57,11 +62,14 @@ const MessagePage = () => {
 
   const handleUploadVideo = async (e) => {
     const file = e.target.files[0];
+    setLoading(true);
     const uploadVideo = await uploadFile(file);
+    setLoading(false);
+    setOpenUploadFile(false);
     setMessage(preve => {
       return {
         ...preve,
-        videoUrl: uploadFile.url
+        videoUrl: uploadVideo.url
       }
     })
   }
@@ -74,9 +82,18 @@ const MessagePage = () => {
       }
     })
   }
+
+  const handleClearUploadVideo = () => {
+    setMessage(preve => {
+      return {
+        ...preve,
+        videoUrl: ""
+      }
+    })
+  }
   return (
-    <div>
-      <header className='sticky top-0 h-16 bg-white flex justify-between items-center px-4'>
+    <div style={{ backgroundImage: `url(${backgroundImage})` }} className='bg-no-repeat bg-cover'>
+      <header className='relative top-0 h-16 bg-white flex justify-between items-center px-4'>
         <div className='flex items-center gap-3'>
           <Link to={"/"} className='lg:hidden'>
             <FaAngleLeft size={25} />
@@ -108,7 +125,9 @@ const MessagePage = () => {
       </header>
 
       {/* show all message */}
-      <section className='h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar'>
+      <section className='h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar bg-slate-100 bg-opacity-50'>
+
+        {/* upload image display */}
         {
           message.imageUrl && (
             <div className='sticky bottom-0 bg-slate-700 bg-opacity-30 w-full h-full flex justify-center items-center rounded overflow-hidden'>
@@ -122,6 +141,32 @@ const MessagePage = () => {
                   className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
                 />
               </div>
+            </div>
+          )
+        }
+        {/* upload video display */}
+        {
+          message.videoUrl && (
+            <div className='sticky bottom-0 bg-slate-700 bg-opacity-30 w-full h-full flex justify-center items-center rounded overflow-hidden'>
+              <div className='w-fit absolute top-0 right-0 p-2 hover:text-primary' onClick={handleClearUploadVideo}>
+                <CgCloseR />
+              </div>
+              <div className='bg-white p-3'>
+                <video
+                  src={message.videoUrl}
+                  className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
+                  controls
+                  muted
+                  autoPlay
+                />
+              </div>
+            </div>
+          )
+        }
+        {
+          loading && (
+            <div className='w-full h-full flex justify-center items-center'>
+              <Loading />
             </div>
           )
         }
@@ -154,20 +199,28 @@ const MessagePage = () => {
                     type='file'
                     id='uploadImage'
                     onChange={handleUploadImage}
+                    className='hidden'
                   />
 
                   <input
                     type='file'
                     id='uploadVideo'
                     onChange={handleUploadVideo}
+                    className='hidden'
                   />
                 </form>
               </div>
             )
           }
-
         </div>
 
+        <div className='w-full h-full'>
+          <input
+            type='text'
+            placeholder='Type in here ...'
+            className='w-full h-full outline-none px-4 py-1'
+          />
+        </div>
 
       </section>
     </div>
