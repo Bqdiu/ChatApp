@@ -14,6 +14,16 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             {
+                path: '',
+                element: <Home />,
+                children: [
+                    {
+                        path: ':userId',
+                        element: <MessagePage />
+                    }
+                ]
+            },
+            {
                 path: 'register',
                 element: <AuthLayout> <Register /></AuthLayout>
             },
@@ -28,17 +38,8 @@ const router = createBrowserRouter([
             {
                 path: 'forgot-password',
                 element: <AuthLayout><ForgotPassoword /> </AuthLayout>
-            },
-            {
-                path: '',
-                element: <Home />,
-                children: [
-                    {
-                        path: ':userId',
-                        element: <MessagePage />
-                    }
-                ]
             }
+        
         ]
     }
 

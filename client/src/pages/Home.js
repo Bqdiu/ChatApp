@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, setUser } from '../redux/userSlice';
+import { logout, setOnlineUser, setSocketConnection, setUser } from '../redux/userSlice';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
 import logo from '../assets/logo.png'
@@ -10,10 +10,10 @@ import io from 'socket.io-client'
 const Home = () => {
 
   const user = useSelector(state => state.user);
-  console.log('redux user', user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  console.log('redux user', user);
   const fetchUserDetails = async () => {
     try {
       const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-detail`;
@@ -48,6 +48,13 @@ const Home = () => {
       }
     })
 
+    socketConnection.on('onlineUser', (data) => {
+      console.log(data);
+      dispatch(setOnlineUser(data));
+    })
+
+    dispatch(setSocketConnection(socketConnection));
+
     return () => {
       socketConnection.disconnect();
     }
@@ -60,7 +67,7 @@ const Home = () => {
         <SideBar />
       </section>
       {/* message component */}
-      <section className={`bg-green-200 ${basePath && 'hidden'}`}>
+      <section className={`${basePath && 'hidden'}`}>
         <Outlet />
       </section>
       {

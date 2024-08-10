@@ -34,8 +34,9 @@ const SideBar = () => {
                         <Avatar
                             width={35}
                             height={35}
-                            name={user.name}
-                            imageUrl={user.profile_pic}
+                            name={user?.name}
+                            imageUrl={user?.profile_pic}
+                            userId={user?._id}
                         />
                     </div>
                     <button title='Logout' className='w-12 h-12 mt-1 flex justify-center items-center cursor-pointer hover:bg-slate-300 rounded text-slate-700'>

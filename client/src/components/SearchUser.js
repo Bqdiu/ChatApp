@@ -30,7 +30,7 @@ const SearchUser = ({ onClose }) => {
 
     console.log('searchUser', searchUser);
     return (
-        <div className='fixed top-0 bottom-0 left-0 right-0 bg-slate-700 bg-opacity-40 px-5 overflow-y-auto scrollbar'>
+        <div className='fixed top-0 bottom-0 left-0 right-0 bg-slate-700 bg-opacity-40 px-5 overflow-y-auto scrollbar z-10'>
             <div className='w-full max-w-lg mx-auto mt-12'>
                 {/* imput search user */}
                 <div className='bg-white rounded h-14 overflow-hidden flex'>
@@ -69,7 +69,7 @@ const SearchUser = ({ onClose }) => {
                     }
                 </div>
             </div>
-            <div className='text-2xl fixed top-0 right-0 p-3 lg:text-4xl hover:text-white' onClick={onClose}>
+            <div className='text-2xl fixed top-0 right-10 p-3 lg:text-4xl hover:text-white' onClick={onClose}>
                 <button>
                     <CgCloseR />
                 </button>
